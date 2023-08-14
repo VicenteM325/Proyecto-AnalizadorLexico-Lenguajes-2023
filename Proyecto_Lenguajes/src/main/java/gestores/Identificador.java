@@ -7,6 +7,8 @@ public class Identificador {
     int estadosFinalizacion[] = new int[18];
     String descripcionFinalizacion[] = new String[18];
     static int estadoActual = 0;
+    int filaActual = 1;
+    int columnaActual = 1;
     {
         matriz[0][0] = 1;  matriz[0][1] = -1;    matriz[0][2] = 4;      matriz[0][3] = 4;      matriz[0][4] = 6;      matriz[0][5] = 7;        matriz[0][6] = 8;      matriz[0][7] = 9;      matriz[0][8] = 10;     matriz[0][9] = 11;     matriz[0][10] = 12;    matriz[0][11] = 13;      matriz[0][12] = 14;      matriz[0][13] = 15;        matriz[0][14] = 16;
 
@@ -110,13 +112,21 @@ public class Identificador {
 
         while((seguirLeyendo) && posicion < palabra.length()) {
             tmp = palabra.charAt(posicion);
+            //Manejo de posicion de fila y columna
+            if(tmp == '\n'){
+                filaActual++;
+                columnaActual = 1;
+            } else if(tmp != ' ' && tmp != '\r' && tmp != '\t' && tmp != '\b' && tmp != '\f') {
+                columnaActual++;
+            }
+            //Manejo de lectura de tokens
             if ( tmp==' ' |tmp=='\n' | tmp=='\r' | tmp=='\t' | tmp=='\b' | tmp=='\f' ){
                 seguirLeyendo = false;
             }
             else{
 
                 int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(palabra.charAt(posicion)));
-                System.out.println("Estado actual = " + estadoActual + " Caracter = " + palabra.charAt(posicion) + " Transicion a " + estadoTemporal);
+                System.out.println("Estado actual = " + estadoActual + " Fila = " + filaActual + " Columna = " + columnaActual + " Caracter = " + palabra.charAt(posicion) + " Transicion a " + estadoTemporal);
 
                 token += palabra.charAt(posicion);
                 estadoActual = estadoTemporal;
@@ -128,7 +138,7 @@ public class Identificador {
         palabrasReservadas.getTokenReservadas(token);
         palabrasReservadas.getTokenBooleano(token);
         palabrasReservadas.getTokenLogico(token);
-        System.out.println(" El movimiento termino en el estado " + getEstadoAceptacion(estadoActual) + " token actual : " + token);
+        System.out.println(" El movimiento termino en el estado " + getEstadoAceptacion(estadoActual) + " token actual : " + token + " Fila = " + filaActual + " Columna = " + columnaActual);
 
     }
 

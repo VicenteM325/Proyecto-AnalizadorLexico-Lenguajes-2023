@@ -1,14 +1,19 @@
 package gestores;
 
+import javax.swing.JTextArea;
+
 public class Identificador {
-        String palabra = "";
+    private JTextArea text;
+    private JTextArea texttokenes;
+    String palabra;
     int posicion = 0;
-    int matriz[][] = new int [18][16];
-    int estadosFinalizacion[] = new int[18];
-    String descripcionFinalizacion[] = new String[18];
+    int matriz[][] = new int [17][16];
+    int estadosFinalizacion[] = new int[15];
+    String descripcionFinalizacion[] = new String[15];
     static int estadoActual = 0;
     int filaActual = 1;
     int columnaActual = 1;
+    int contErrores = 0;
     {
         matriz[0][0] = 1;  matriz[0][1] = -1;    matriz[0][2] = 4;      matriz[0][3] = 4;      matriz[0][4] = 6;      matriz[0][5] = 7;        matriz[0][6] = 8;      matriz[0][7] = 9;      matriz[0][8] = 10;     matriz[0][9] = 11;     matriz[0][10] = 12;    matriz[0][11] = 13;      matriz[0][12] = 14;      matriz[0][13] = 15;        matriz[0][14] = 16;
 
@@ -90,9 +95,14 @@ public class Identificador {
         //AFD Espacios
         estadosFinalizacion[14] = 16;
         descripcionFinalizacion[14] = "Espacios";
+        
 
 
-
+    }
+        public Identificador(JTextArea text,JTextArea tokenstext){
+        this.text=text;
+        this.texttokenes=tokenstext;
+    
     }
 
     public void Verificar(String palabra){
@@ -104,48 +114,11 @@ public class Identificador {
 
     }
 
-    public void getToken(){
-        estadoActual = 0;
-        boolean seguirLeyendo = true;
-        char tmp;
-        String token = "";
-
-        while((seguirLeyendo) && posicion < palabra.length()) {
-            tmp = palabra.charAt(posicion);
-            //Manejo de posicion de fila y columna
-            if(tmp == '\n'){
-                filaActual++;
-                columnaActual = 1;
-            } else if(tmp != ' ' && tmp != '\r' && tmp != '\t' && tmp != '\b' && tmp != '\f') {
-                columnaActual++;
-            }
-            //Manejo de lectura de tokens
-            if ( tmp==' ' |tmp=='\n' | tmp=='\r' | tmp=='\t' | tmp=='\b' | tmp=='\f' ){
-                seguirLeyendo = false;
-            }
-            else{
-
-                int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(palabra.charAt(posicion)));
-                System.out.println("Estado actual = " + estadoActual + " Fila = " + filaActual + " Columna = " + columnaActual + " Caracter = " + palabra.charAt(posicion) + " Transicion a " + estadoTemporal);
-
-                token += palabra.charAt(posicion);
-                estadoActual = estadoTemporal;
-                System.out.println(palabra.charAt(posicion));
-            }
-            posicion++;
-        }
-        PalabrasReservadas palabrasReservadas = new PalabrasReservadas();
-        palabrasReservadas.getTokenReservadas(token);
-        palabrasReservadas.getTokenBooleano(token);
-        palabrasReservadas.getTokenLogico(token);
-        System.out.println(" El movimiento termino en el estado " + getEstadoAceptacion(estadoActual) + " token actual : " + token + " Fila = " + filaActual + " Columna = " + columnaActual);
-
-    }
 
     public int getSiguienteEstado(int posicionActual, int caracter){
         int resultado = -1;
         try {
-            if (caracter >= 0 && caracter <= 18) {
+            if (caracter >= 0 && caracter <= 14) {
                 resultado = matriz[estadoActual][caracter];
             }
         } catch(Exception e){
@@ -190,6 +163,9 @@ public class Identificador {
             } else if (caracter == '(' | caracter == ')' | caracter == '{' | caracter == '}' | caracter == '[' | caracter == ']' | caracter == ',' | caracter == ';' | caracter == ':') {
                 resultado = 12;
             }
+            else if(caracter==' '| caracter=='\n' | caracter=='\r' | caracter=='\t' | caracter=='\b' | caracter=='\f'){
+                resultado=14;
+            }
 
         }
         return resultado;
@@ -207,5 +183,52 @@ public class Identificador {
         }
         return res;
     }
+    
+        public void getToken(){
+        estadoActual = 0;
+        boolean seguirLeyendo = true;
+        char tmp;
+        String token = "";
+
+        while((seguirLeyendo) && posicion < palabra.length()) {
+            tmp = palabra.charAt(posicion);
+            //Manejo de posicion de fila y columna
+            if(tmp == '\n'){
+                filaActual++;
+                columnaActual = 1;
+            } else if(tmp != ' ' && tmp != '\r' && tmp != '\t' && tmp != '\b' && tmp != '\f') {
+                columnaActual++;
+            }
+            //Manejo de lectura de tokens
+            if ( tmp==' ' |tmp=='\n' | tmp=='\r' | tmp=='\t' | tmp=='\b' | tmp=='\f' ){
+                seguirLeyendo = false;
+            }
+            else{
+
+                int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(palabra.charAt(posicion)));
+               this.text.append("Estado actual = " + estadoActual + " Fila = " + filaActual + " Columna = " + columnaActual + " Caracter = " + palabra.charAt(posicion) + " Transicion a " + estadoTemporal+ "\n");
+
+                token += palabra.charAt(posicion);
+                estadoActual = estadoTemporal;
+                System.out.println(palabra.charAt(posicion));
+            }
+            posicion++;
+        }
+        PalabrasReservadas palabrasReservadas = new PalabrasReservadas();
+        palabrasReservadas.getTokenReservadas(token);
+        palabrasReservadas.getTokenBooleano(token);
+        palabrasReservadas.getTokenLogico(token);
+        this.text.append(" El movimiento termino en el estado ||| " + getEstadoAceptacion(estadoActual) + " ||| Token ||| " + token + " ||| Fila = " + filaActual + " ||| Columna = " + columnaActual + " |||" +"\n");
+        if(getEstadoAceptacion(estadoActual).equals("Error"))
+        {
+             this.contErrores=this.contErrores+1;
+             System.out.println("Cantidad de errores "+contErrores+"------"+token);
+             
+        } 
+        else {
+        this.texttokenes.append(getEstadoAceptacion(estadoActual)+ "     Aqui el patron     "+ "     " +  token + "     " + "  " + filaActual + "  " + columnaActual + "\n");
+         }
+   }
+
     
 }

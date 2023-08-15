@@ -7,6 +7,12 @@ package jframe;
 
 import javax.swing.table.DefaultTableModel;
 import gestores.Identificador;
+import carga_archivo.CargaArchivo;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,8 +24,11 @@ public class VentanaInicio extends javax.swing.JFrame {
     /**
      * Creates new form VentanaInicio
      */
+     private CargaArchivo cargarArchivo;
     public VentanaInicio() {
+        this.cargarArchivo = new CargaArchivo();
         initComponents();
+        this.setLocationRelativeTo(null);
         
     }
     
@@ -205,6 +214,19 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        JFileChooser fileChosser = new JFileChooser();
+        int seleccion = fileChosser.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            //aqui selecciono y guardo el FILE que va a utilizar el FileReader
+            File fichero = fileChosser.getSelectedFile();
+            try {
+                ArrayList<String> lista = this.cargarArchivo.leerFichero(fichero,this.jTextArea1);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al leer el archivo");
+                ex.printStackTrace();
+            }
+        }
+        this.jTextArea1.setEditable(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

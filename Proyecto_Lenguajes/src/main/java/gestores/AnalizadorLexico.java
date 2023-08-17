@@ -44,8 +44,6 @@ public class AnalizadorLexico {
     char tmp;
     String token = "";
 
-    int columnaInicial = columnaActual; // Guardar la columna inicial
-
     while ((seguirLeyendo) && posicion < palabra.length()) {
         tmp = palabra.charAt(posicion);
         // Manejo de posicion de fila y columna

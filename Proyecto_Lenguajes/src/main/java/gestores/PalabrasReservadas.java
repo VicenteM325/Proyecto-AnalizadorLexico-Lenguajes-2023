@@ -10,7 +10,7 @@ public class PalabrasReservadas{
     public void getTokenReservadas(String token){
         for (String valor : palabrasReservadas) {
             if (valor.equals(token)) {
-                Identificador.estadoActual = 10;
+                AnalizadorLexico.estadoActual = 10;
                 return;
             } 
         }
@@ -18,7 +18,7 @@ public class PalabrasReservadas{
     public void getTokenBooleano(String token){
         for(String valor : palabrasBooleanas){
             if(valor.equals(token)){
-                Identificador.estadoActual = 12;
+                AnalizadorLexico.estadoActual = 12;
                 return;
             }
         }
@@ -26,7 +26,7 @@ public class PalabrasReservadas{
     public void getTokenLogico(String token){
         for (String valor : palabrasLogicas){
             if(valor.equals(token)){
-                Identificador.estadoActual = 8;
+                AnalizadorLexico.estadoActual = 8;
             }
         }
     }

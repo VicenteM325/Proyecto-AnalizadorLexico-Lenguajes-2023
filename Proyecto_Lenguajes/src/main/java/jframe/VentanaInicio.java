@@ -6,7 +6,6 @@
 package jframe;
 
 import javax.swing.table.DefaultTableModel;
-import gestores.Identificador;
 import carga_archivo.CargaArchivo;
 import gestores.AnalizadorLexico;
 import java.io.File;

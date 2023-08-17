@@ -101,19 +101,11 @@ public class GeneradorAFD {
     }
     public int getSiguienteEstado(int posicionActual, int caracter) {
         int resultado = -1;
+        
         try {
-        if (caracter >= 0 && caracter <= 14) {
-            // Verificar si estamos en un estado donde las comillas están abiertas
-            if (estadoActual == 11) {  // Estado de comillas abiertas
-                if (caracter == 9) {  // Carácter de comilla
-                    resultado = 11;  // Pasar al estado de aceptación para cadenas
-                } else {
-                    resultado = matriz[estadoActual][caracter];
-                }
-            } else {
+             if (caracter >= 0 && caracter <= 14) {
                 resultado = matriz[estadoActual][caracter];
             }
-        }
         } catch (Exception e) {
             //El resultado toma el valor de 0 (resultado = matriz[][] = 0)
         }

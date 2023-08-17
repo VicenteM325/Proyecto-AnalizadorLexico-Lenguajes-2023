@@ -55,7 +55,12 @@ public class AnalizadorLexico {
         }
         // Manejo de lectura de tokens
         if (tmp == ' ' || tmp == '\n' || tmp == '\r' || tmp == '\t' || tmp == '\b' || tmp == '\f') {
-            seguirLeyendo = false;
+            if(tmp == ' ' && estadoActual == 13){
+                seguirLeyendo = true;
+            } 
+            else{
+              seguirLeyendo = false;
+            }
         } else {
             int estadoTemporal = afd.getSiguienteEstado(estadoActual, afd.getIntCaracter(tmp));
             this.text.append("Estado actual = " + estadoActual + " Fila = " + filaActual + " Columna = " + columnaActual + " Caracter = " + tmp + " Transicion a " + estadoTemporal + "\n");

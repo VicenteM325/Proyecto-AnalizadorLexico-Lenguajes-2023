@@ -103,12 +103,19 @@ public class GeneradorAFD {
         int resultado = -1;
         
         try {
-             if (caracter >= 0 && caracter <= 14) {
+            if(estadoActual == 13 && caracter == 14){
+                resultado = 13;
+            }
+            
+
+          else  if (caracter >= 0 && caracter <= 14) {
                 resultado = matriz[estadoActual][caracter];
             }
+            
         } catch (Exception e) {
             //El resultado toma el valor de 0 (resultado = matriz[][] = 0)
         }
+        
         return resultado;
     }
     

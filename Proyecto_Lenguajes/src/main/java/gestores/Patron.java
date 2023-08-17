@@ -30,15 +30,49 @@ public class Patron {
     
     public java.awt.Color getColorPorCategoria(String token){
         if(token.equals("Numero Entero")){
-            return java.awt.Color.BLUE;
+            return java.awt.Color.RED;
         }
         if(token.equals("Numero double")){
-            return java.awt.Color.ORANGE;
+            return java.awt.Color.RED;
         }
         if(token.equals("Identificador Tipo Minuscula")){
-            return java.awt.Color.WHITE;
+            return java.awt.Color.BLACK;
         }
-        return java.awt.Color.BLACK;
-    }
+        if(token.equals("Identificador")){
+            return java.awt.Color.BLACK;
+        }
+        if(token.equals("Aritmetico")){
+            return java.awt.Color.blue;       
+        }
+        if(token.equals("Comparacion")){
+            return java.awt.Color.blue;
+        }
+        if(token.equals("Logicos")){
+            return java.awt.Color.blue;
+        }
+        if(token.equals("Asignacion")){
+            return java.awt.Color.blue;       
+        }
+        if(token.equals("Palabras Reservadas")){
+            return java.awt.Color.MAGENTA;
+        }
+        if(token.equals("Cadena")){
+            return java.awt.Color.RED;
+        }
+        if(token.equals("Booleana")){
+            return java.awt.Color.RED;
+        }
+        if(token.equals("Comentario")){
+            return java.awt.Color.GRAY;       
+        }
+        if(token.equals("Otros")){
+            return java.awt.Color.GREEN;
+        }
+        if(token.equals("Identificador Tipo Mayuscula")){
+            return java.awt.Color.BLACK;
+        }         
+        
+        return java.awt.Color.yellow;
     
+    }
 }

@@ -31,11 +31,11 @@ public class GeneradorAFD {
 
         matriz[10][0] = -1; matriz[10][1] = -1;   matriz[10][2] = -1;    matriz[10][3] = -1;   matriz[10][4] = -1;    matriz[10][5] = -1;      matriz[10][6] = -1;    matriz[10][7] = -1;    matriz[10][8] = -1;    matriz[10][9] = -1;    matriz[10][10] = -1;    matriz[10][11] = -1;      matriz[10][12] = -1;    matriz[10][13] = -1;       matriz[10][14] = 0;
 
-        matriz[11][0] = 11; matriz[11][1] = -1;   matriz[11][2] = 11;    matriz[11][3] = 11;   matriz[11][4] = -1;    matriz[11][5] = -1;      matriz[11][6] = -1;    matriz[11][7] = -1;    matriz[11][8] = -1;     matriz[11][9] = -1;   matriz[11][10] = -1;    matriz[11][11] = -1;      matriz[11][12] = -1;    matriz[11][13] = -1;       matriz[11][14] = 0;
+        matriz[11][0] = 11; matriz[11][1] = -1;   matriz[11][2] = 11;    matriz[11][3] = 11;   matriz[11][4] = -1;    matriz[11][5] = -1;      matriz[11][6] = -1;    matriz[11][7] = -1;    matriz[11][8] = -1;     matriz[11][9] = 11;   matriz[11][10] = -1;    matriz[11][11] = -1;      matriz[11][12] = -1;    matriz[11][13] = -1;       matriz[11][14] = 0;
 
         matriz[12][0] = -1; matriz[12][1] = -1;   matriz[12][2] = -1;    matriz[12][3] = -1;   matriz[12][4] = -1;    matriz[12][5] = -1;      matriz[12][6] = -1;    matriz[12][7] = -1;    matriz[12][8] = -1;     matriz[12][9] = -1;   matriz[12][10] = -1;    matriz[12][11] = -1;      matriz[12][12] = -1;    matriz[12][13] = -1;       matriz[12][14] = 0;
 
-        matriz[13][0] =  13; matriz[13][1] = -1;   matriz[13][2] =  13;    matriz[13][3] =  13;   matriz[13][4] = -1;    matriz[13][5] = -1;      matriz[13][6] = -1;    matriz[13][7] = -1;    matriz[13][8] = -1;     matriz[13][9] = -1;   matriz[13][10] = -1;    matriz[13][11] = -1;      matriz[13][12] = -1;    matriz[13][13] = 13;    matriz[13][14] = 13;
+        matriz[13][0] =  13; matriz[13][1] = 13;   matriz[13][2] =  13;    matriz[13][3] =  13;   matriz[13][4] = 13;    matriz[13][5] = 13;      matriz[13][6] = 13;    matriz[13][7] = 13;    matriz[13][8] = 13;     matriz[13][9] = 13;   matriz[13][10] = 13;    matriz[13][11] = -1;      matriz[13][12] = 13;    matriz[13][13] = 13;    matriz[13][14] = 13;
 
         matriz[14][0] = -1; matriz[14][1] = -1;   matriz[14][2] = -1;    matriz[14][3] = -1;   matriz[14][4] = -1;    matriz[14][5] = -1;      matriz[14][6] = -1;    matriz[14][7] = -1;    matriz[14][8] = -1;     matriz[14][9] = -1;   matriz[14][10] = -1;    matriz[14][11] = -1;      matriz[14][12] = -1;    matriz[14][13] = -1;       matriz[14][14] = 0;
 
@@ -101,13 +101,21 @@ public class GeneradorAFD {
     }
     public int getSiguienteEstado(int posicionActual, int caracter) {
         int resultado = -1;
+        
         try {
-            if (caracter >= 0 && caracter <= 14) {
+            if(estadoActual == 13 && caracter == 14){
+                resultado = 13;
+            }
+            
+
+          else  if (caracter >= 0 && caracter <= 14) {
                 resultado = matriz[estadoActual][caracter];
             }
+            
         } catch (Exception e) {
             //El resultado toma el valor de 0 (resultado = matriz[][] = 0)
         }
+        
         return resultado;
     }
     

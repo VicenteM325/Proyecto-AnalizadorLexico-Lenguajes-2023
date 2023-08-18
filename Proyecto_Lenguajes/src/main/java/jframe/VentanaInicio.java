@@ -9,10 +9,14 @@ import javax.swing.table.DefaultTableModel;
 import carga_archivo.CargaArchivo;
 import gestores.AnalizadorLexico;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -44,8 +48,6 @@ public class VentanaInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -59,22 +61,14 @@ public class VentanaInicio extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(151, 212, 182));
         jPanel1.setForeground(new java.awt.Color(168, 252, 183));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.SE_RESIZE_CURSOR));
-
-        jTextArea1.setBackground(new java.awt.Color(60, 60, 60));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Yrsa SemiBold", 0, 18)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(254, 254, 254));
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTextArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextArea1.setDisabledTextColor(new java.awt.Color(197, 193, 193));
-        jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Cargar Archivo");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +136,8 @@ public class VentanaInicio extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setViewportView(jTextPane1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -157,11 +153,12 @@ public class VentanaInicio extends javax.swing.JFrame {
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(173, 173, 173)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +205,7 @@ public class VentanaInicio extends javax.swing.JFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -236,13 +233,19 @@ public class VentanaInicio extends javax.swing.JFrame {
             //aqui selecciono y guardo el FILE que va a utilizar el FileReader
             File fichero = fileChosser.getSelectedFile();
             try {
-                ArrayList<String> lista = this.cargarArchivo.leerFichero(fichero,this.jTextArea1);
+                try {
+                    ArrayList<String> lista = this.cargarArchivo.leerFichero(fichero,this.jTextPane1);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error al leer el archivo");
                 ex.printStackTrace();
             }
         }
-        this.jTextArea1.setEditable(false);
+        this.jTextPane1.setEditable(false);
         this.jTextArea3.setEditable(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -260,11 +263,10 @@ public class VentanaInicio extends javax.swing.JFrame {
         tableModel.addColumn("Columna");
         jTable1.setModel(tableModel);
         packColumn packColumn = new packColumn();
-        AnalizadorLexico analiza = new AnalizadorLexico(tableModel, jTextArea3, jTable1);
-        analiza.Verificar(this.jTextArea1.getText());
-        
+        AnalizadorLexico analiza = new AnalizadorLexico(tableModel, jTextArea3, jTextPane1, jTable1);
+        analiza.Verificar(this.jTextPane1.getText());
         for (int columnIndex = 0; columnIndex < tableModel.getColumnCount(); columnIndex++) {
-        packColumn.packColumn(jTable1, columnIndex, 5); // Ajustar con un margen de 5 píxeles
+        packColumn.packColumn(jTable1, columnIndex, 8); // Ajustar con un margen de 5 píxeles
 }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -276,14 +278,14 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel)jTable1.getModel();
-        jTextArea1.setText("");
+        jTextPane1.setText("");
         jTextArea3.setText(" ");
         tableModel.setRowCount(0);
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        this.jTextArea1.setEditable(true);
+        this.jTextPane1.setEditable(true);
         this.jTextArea3.setEditable(false);
         this.jTable1.setEditingColumn(ABORT);
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -334,11 +336,11 @@ public class VentanaInicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

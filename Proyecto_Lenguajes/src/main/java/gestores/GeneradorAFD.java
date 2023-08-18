@@ -35,7 +35,7 @@ public class GeneradorAFD {
 
         matriz[12][0] = -1; matriz[12][1] = -1;   matriz[12][2] = -1;    matriz[12][3] = -1;   matriz[12][4] = -1;    matriz[12][5] = -1;      matriz[12][6] = -1;    matriz[12][7] = -1;    matriz[12][8] = -1;     matriz[12][9] = -1;   matriz[12][10] = -1;    matriz[12][11] = -1;      matriz[12][12] = -1;    matriz[12][13] = -1;       matriz[12][14] = 0;
 
-        matriz[13][0] =  13; matriz[13][1] = -1;   matriz[13][2] =  13;    matriz[13][3] =  13;   matriz[13][4] = -1;    matriz[13][5] = -1;      matriz[13][6] = -1;    matriz[13][7] = -1;    matriz[13][8] = -1;     matriz[13][9] = -1;   matriz[13][10] = -1;    matriz[13][11] = -1;      matriz[13][12] = -1;    matriz[13][13] = 13;    matriz[13][14] = 13;
+        matriz[13][0] =  13; matriz[13][1] = 13;   matriz[13][2] =  13;    matriz[13][3] =  13;   matriz[13][4] = 13;    matriz[13][5] = 13;      matriz[13][6] = 13;    matriz[13][7] = 13;    matriz[13][8] = 13;     matriz[13][9] = 13;   matriz[13][10] = 13;    matriz[13][11] = -1;      matriz[13][12] = 13;    matriz[13][13] = 13;    matriz[13][14] = 13;
 
         matriz[14][0] = -1; matriz[14][1] = -1;   matriz[14][2] = -1;    matriz[14][3] = -1;   matriz[14][4] = -1;    matriz[14][5] = -1;      matriz[14][6] = -1;    matriz[14][7] = -1;    matriz[14][8] = -1;     matriz[14][9] = -1;   matriz[14][10] = -1;    matriz[14][11] = -1;      matriz[14][12] = -1;    matriz[14][13] = -1;       matriz[14][14] = 0;
 

@@ -1,8 +1,24 @@
 package gestores;
 
+import static gestores.AnalizadorLexico.estadoActual;
 import java.awt.Color;
+import static java.awt.SystemColor.text;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
 
 public class Patron {
+    
+     public static final Color COLOR_IDENTIFICADOR_MAYUSCULA = Color.BLUE;
+     private javax.swing.JTextArea textArea3;
+     GeneradorAFD afd = new GeneradorAFD();
+    
         private String[][] matrizPatrones = {
         {"Numero Entero", "[0-9]+"},
         {"Numero double", "[(0-9)+(.)][0-9]+"},
@@ -73,6 +89,39 @@ public class Patron {
         }         
         
         return java.awt.Color.yellow;
-    
     }
+       
+        
+        public void colorearEditorTexto(JTextPane textPane, String textEditor, Color color){
+        
+            StyledDocument doc = textPane.getStyledDocument();
+            String contenido = null;
+            try {
+                //Obtiene el texto completo del JTextPane
+                contenido = doc.getText(0, doc.getLength()); 
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+                return;
+            }
+                //Encuentra el indice del token 
+            int startIndex = contenido.indexOf(textEditor); 
+            while (startIndex >= 0) {
+                //Calcula el índice final
+                int endIndex = startIndex + textEditor.length(); 
+
+                StyleContext sc = StyleContext.getDefaultStyleContext();
+                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
+
+                doc.setCharacterAttributes(startIndex, endIndex - startIndex, aset, true);
+
+                // Buscar la próxima ocurrencia del token
+                startIndex = contenido.indexOf(textEditor, endIndex);
+            }
+    }
+
+        
+    
+    
+    
+    
 }

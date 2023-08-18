@@ -10,6 +10,7 @@ import jframe.ColorCellRenderer;
 public class AnalizadorLexico {
 
     private javax.swing.table.DefaultTableModel tableModel;
+    private javax.swing.table.DefaultTableModel tableModelError;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea text;
     private javax.swing.JTextPane textEditor;
@@ -25,8 +26,9 @@ public class AnalizadorLexico {
     Patron patrones = new Patron();
 
 
-   public AnalizadorLexico(DefaultTableModel tableModel, JTextArea text, JTextPane textEditor, JTable jTable1) {
+   public AnalizadorLexico(DefaultTableModel tableModel, DefaultTableModel tableModelError, JTextArea text, JTextPane textEditor, JTable jTable1) {
         this.tableModel = tableModel;
+        this.tableModelError = tableModelError;
         this.jTable1 = jTable1;
         this.text = text;
         this.afd = new GeneradorAFD();
@@ -105,6 +107,8 @@ private void agregarTokenATabla(Token token) {
     
     if (estadoAceptacion.equals("Error")) {
         this.contErrores = this.contErrores + 1;
+        Object[] rowData = {token.getToken(), token.getFila(), token.getColumna()};
+        tableModelError.addRow(rowData);
         System.out.println("Cantidad de errores " + contErrores + "------" + token.getToken() + " Fila " + token.getFila() + " Columna " + token.getColumna());
     } else {
         

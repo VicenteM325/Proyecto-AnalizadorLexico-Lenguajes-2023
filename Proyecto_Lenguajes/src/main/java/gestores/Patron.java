@@ -1,9 +1,6 @@
 package gestores;
 
-import static gestores.AnalizadorLexico.estadoActual;
 import java.awt.Color;
-import static java.awt.SystemColor.text;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -15,14 +12,13 @@ import javax.swing.text.StyledDocument;
 
 public class Patron {
     
-     public static final Color COLOR_IDENTIFICADOR_MAYUSCULA = Color.BLUE;
-     private javax.swing.JTextArea textArea3;
      GeneradorAFD afd = new GeneradorAFD();
     
         private String[][] matrizPatrones = {
         {"Numero Entero", "[0-9]+"},
         {"Numero double", "[(0-9)+(.)][0-9]+"},
         {"Identificador Tipo Minuscula", "[(a-z)(_)][(a-z)(A-Z)(_)]*[0-9]+"},
+        {"Identificador Tipo Mayuscula", "[(a-z)(_)][(a-z)(A-Z)(_)]*[0-9]+"},
         {"Identificador", "[(a-z)(A-Z)(_)][(a-z)(A-Z)(_)]*[0-9]+"},
         {"Aritmetico", "[(+)|(-)|(**)|(*)|(//)|(/)|(%)]"},
         {"Comparacion", "[\\==|\\!=|\\>|\\<|\\ >=|\\ <=]"},

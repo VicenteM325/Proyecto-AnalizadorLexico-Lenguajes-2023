@@ -1,7 +1,5 @@
 package gestores;
 
-import java.awt.Color;
-
 
 public class Token {
     
@@ -9,7 +7,6 @@ public class Token {
     private String valor;
     private int fila;
     private int columna;
-    private String categoria;
 
     public Token(String tipo, String valor, int fila, int columna) {
         this.tipo = tipo;
@@ -32,11 +29,6 @@ public class Token {
 
     public int getColumna() {
         return columna;
-    }
-    
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-           
     }
 
 

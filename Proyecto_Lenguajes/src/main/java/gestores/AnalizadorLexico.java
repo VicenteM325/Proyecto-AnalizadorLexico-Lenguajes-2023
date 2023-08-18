@@ -81,7 +81,6 @@ public class AnalizadorLexico {
     if (!token.trim().isEmpty()) {
         String estadoAceptacion = afd.getEstadoAceptacion(estadoActual);
         Token nuevoToken = new Token(afd.getEstadoAceptacion(estadoActual), token, filaActual, columnaActual);
-        nuevoToken.setCategoria(estadoAceptacion);
         agregarTokenATabla(nuevoToken); // Agregar el token a la tabla
         
 
@@ -106,7 +105,7 @@ private void agregarTokenATabla(Token token) {
     
     if (estadoAceptacion.equals("Error")) {
         this.contErrores = this.contErrores + 1;
-        System.out.println("Cantidad de errores " + contErrores + "------" + token.getToken());
+        System.out.println("Cantidad de errores " + contErrores + "------" + token.getToken() + " Fila " + token.getFila() + " Columna " + token.getColumna());
     } else {
         
         Object[] rowData = {estadoAceptacion, patron, token.getToken(), token.getFila(), token.getColumna()};

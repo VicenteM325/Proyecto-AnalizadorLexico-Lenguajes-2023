@@ -1,7 +1,6 @@
 package ejecutable;
 
 
-import java.util.Scanner;
 import jframe.VentanaInicio;
 
 

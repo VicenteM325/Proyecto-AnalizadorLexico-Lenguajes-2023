@@ -67,6 +67,7 @@ public class AnalizadorLexico {
             if(tmp == ' ' && estadoActual == 13){
                 seguirLeyendo = true;
                 token += tmp;
+                columnaActual++;
             } 
             else{
               seguirLeyendo = false;

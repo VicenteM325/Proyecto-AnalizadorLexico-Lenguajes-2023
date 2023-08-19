@@ -100,18 +100,18 @@ public class Patron {
                 return;
             }
                 //Encuentra el indice del token 
-            int startIndex = contenido.indexOf(textEditor); 
-            while (startIndex >= 0) {
+            int InicioIndice = contenido.indexOf(textEditor); 
+            while (InicioIndice >= 0) {
                 //Calcula el índice final
-                int endIndex = startIndex + textEditor.length(); 
+                int IndiceFinal = InicioIndice + textEditor.length(); 
 
                 StyleContext sc = StyleContext.getDefaultStyleContext();
                 AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
-                doc.setCharacterAttributes(startIndex, endIndex - startIndex, aset, true);
+                doc.setCharacterAttributes(InicioIndice, IndiceFinal - InicioIndice, aset, true);
 
                 // Buscar la próxima ocurrencia del token
-                startIndex = contenido.indexOf(textEditor, endIndex);
+                InicioIndice = contenido.indexOf(textEditor, IndiceFinal);
             }
     }
 

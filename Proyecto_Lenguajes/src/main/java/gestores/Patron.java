@@ -1,5 +1,6 @@
 package gestores;
 
+import static gestores.PalabrasReservadas.palabraReservada;
 import java.awt.Color;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -38,6 +39,22 @@ public class Patron {
             }
         }
         return "Patron Desconocido";
+    }
+    
+    public String patronesSolitarios(String patron, String estadoAceptacion){
+           if("Palabras Reservadas".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if ("Booleana".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Logicos".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Aritmetico".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Otros".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           }
+         return patron;
+   
     }
     
     public java.awt.Color getColorPorCategoria(String token){
@@ -100,18 +117,18 @@ public class Patron {
                 return;
             }
                 //Encuentra el indice del token 
-            int startIndex = contenido.indexOf(textEditor); 
-            while (startIndex >= 0) {
+            int InicioIndice = contenido.indexOf(textEditor); 
+            while (InicioIndice >= 0) {
                 //Calcula el índice final
-                int endIndex = startIndex + textEditor.length(); 
+                int IndiceFinal = InicioIndice + textEditor.length(); 
 
                 StyleContext sc = StyleContext.getDefaultStyleContext();
                 AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
-                doc.setCharacterAttributes(startIndex, endIndex - startIndex, aset, true);
+                doc.setCharacterAttributes(InicioIndice, IndiceFinal - InicioIndice, aset, true);
 
                 // Buscar la próxima ocurrencia del token
-                startIndex = contenido.indexOf(textEditor, endIndex);
+                InicioIndice = contenido.indexOf(textEditor, IndiceFinal);
             }
     }
 

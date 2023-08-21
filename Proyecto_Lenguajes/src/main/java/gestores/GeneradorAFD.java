@@ -1,5 +1,6 @@
 package gestores;
 
+import static gestores.AnalizadorLexico.bandera;
 import static gestores.AnalizadorLexico.estadoActual;
 
 public class GeneradorAFD {
@@ -98,10 +99,10 @@ public class GeneradorAFD {
         try {
             if(estadoActual == 13 && caracter == 14){
                 resultado = 13;
+              
             }
-            
 
-          else  if (caracter >= 0 && caracter <= 14) {
+            else if (caracter >= 0 && caracter <= 14) {
                 resultado = matriz[estadoActual][caracter];
             }
             

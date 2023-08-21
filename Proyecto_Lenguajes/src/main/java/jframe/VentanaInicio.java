@@ -8,6 +8,8 @@ package jframe;
 import javax.swing.table.DefaultTableModel;
 import carga_archivo.CargaArchivo;
 import gestores.AnalizadorLexico;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -97,6 +99,11 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         jButton3.setText("Graficar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Salir");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -326,9 +333,9 @@ public class VentanaInicio extends javax.swing.JFrame {
         //        identificador1.Verificar(this.jTextArea1.getText());
         DefaultTableModel tableModel = new DefaultTableModel();
         DefaultTableModel tableModelError = new DefaultTableModel();
-        tableModel.addColumn("Tipo");
-        tableModel.addColumn("Patron");
         tableModel.addColumn("Token");
+        tableModel.addColumn("Patron");
+        tableModel.addColumn("Lexema");
         tableModel.addColumn("Fila");
         tableModel.addColumn("Columna");
         jTable1.setModel(tableModel);
@@ -355,10 +362,12 @@ public class VentanaInicio extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel)jTable1.getModel();
         DefaultTableModel tableModelError = (DefaultTableModel)jTableError.getModel();
+        GeneradorDiagramas generador = new GeneradorDiagramas();
         jTextPane1.setText("");
         jTextArea3.setText(" ");
         tableModelError.setRowCount(0);
         tableModel.setRowCount(0);
+        generador.limpiar();
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -371,6 +380,15 @@ public class VentanaInicio extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         JOptionPane.showMessageDialog(rootPane, "Nombre: Vicente Rocael Matías Osorio \nCarnet: 201930672 \n ©Cunoc.edu.gt ");
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jButton3.addActionListener((ActionEvent e) -> {
+            GeneradorDiagramas generadorDiagramas = new GeneradorDiagramas();
+            generadorDiagramas.visualizarArchivoDOT();
+        });
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

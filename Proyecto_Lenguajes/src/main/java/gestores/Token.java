@@ -3,12 +3,13 @@ package gestores;
 
 public class Token {
     
-        private String tipo;
+    private String tipo;
     private String valor;
+    private String palabraReservada;
     private int fila;
     private int columna;
 
-    public Token(String tipo, String valor, int fila, int columna) {
+    public Token(String tipo,  String valor, int fila, int columna) {
         this.tipo = tipo;
         this.valor = valor;
         this.fila = fila;
@@ -29,6 +30,10 @@ public class Token {
 
     public int getColumna() {
         return columna;
+    }
+    
+    public String getpalabraReservada(){
+        return palabraReservada;
     }
 
 

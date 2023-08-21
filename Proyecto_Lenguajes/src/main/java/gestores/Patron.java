@@ -1,5 +1,6 @@
 package gestores;
 
+import static gestores.PalabrasReservadas.palabraReservada;
 import java.awt.Color;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -38,6 +39,22 @@ public class Patron {
             }
         }
         return "Patron Desconocido";
+    }
+    
+    public String patronesSolitarios(String patron, String estadoAceptacion){
+           if("Palabras Reservadas".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if ("Booleana".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Logicos".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Aritmetico".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           } if("Otros".equals(estadoAceptacion)){
+                 patron = palabraReservada;
+           }
+         return patron;
+   
     }
     
     public java.awt.Color getColorPorCategoria(String token){

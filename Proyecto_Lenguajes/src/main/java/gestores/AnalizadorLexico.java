@@ -1,9 +1,7 @@
 package gestores;
 
-import static gestores.PalabrasReservadas.palabraReservada;
 import java.awt.Color;
 import java.io.File;
-import java.io.InputStream;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -54,8 +52,7 @@ public class AnalizadorLexico {
         File classDirectory = new File(classPath).getParentFile();
 
         // Construye la ruta completa al archivo DOT
-        String rutaArchivoDOT = new File(classDirectory, "Imagenes/archivo.dot").getAbsolutePath();
-    
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
     
         while (posicion < palabra.length()) {
             getToken();
@@ -151,6 +148,6 @@ private void agregarTokenATabla(Token token) {
         jTable1.setDefaultRenderer(Object.class, new ColorCellRenderer(patron1));
         
         }
-    }
+    } 
 }
 

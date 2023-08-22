@@ -15,6 +15,9 @@ public class GeneradorDiagramas {
 
     private List<Nodo> nodos;
     private List<Transicion> transiciones;
+    long timestamp = System.currentTimeMillis();
+     public String imageFileName = "imagen_" + timestamp + ".png";
+     ArrayList<String> imagenes = new ArrayList<>();
     
     public GeneradorDiagramas() {
         nodos = new ArrayList<>();
@@ -70,12 +73,15 @@ public class GeneradorDiagramas {
 
     public void visualizarArchivoDOT() {
         
-        String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        File classDirectory = new File(classPath).getParentFile();
+       String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+       File classDirectory = new File(classPath).getParentFile();
+       
+
 
         // Construye la ruta completa al archivo DOT
-        String rutaArchivoDOT = new File(classDirectory, "Imagenes/archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "Imagenes/imagen.png").getAbsolutePath();
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory, imageFileName).getAbsolutePath();
+        imagenes.add(imagePath);
         GraphvizUtils.generarImagenDeDot(rutaArchivoDOT, imagePath);
         
          ImageIcon imageIcon = new ImageIcon(imagePath);
@@ -95,7 +101,7 @@ public class GeneradorDiagramas {
     public void eliminarImagenGenerada(String rutaImagen, String rutaArchivoDOT) {
     File dot = new File(rutaArchivoDOT);
     File imagen = new File(rutaImagen);
-    if (imagen.exists() && dot.exists() ) {
+    if (imagen.exists() || dot.exists() ) {
         imagen.delete();
         dot.delete();
         System.out.println("Imagen eliminada: " + rutaImagen);
@@ -110,12 +116,11 @@ public class GeneradorDiagramas {
         File classDirectory = new File(classPath).getParentFile();
 
         // Construye la ruta completa al archivo DOT
-        String rutaArchivoDOT = new File(classDirectory, "Imagenes/archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "Imagenes/imagen.png").getAbsolutePath();
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory , imageFileName).getAbsolutePath();
         eliminarImagenGenerada(imagePath, rutaArchivoDOT);
-    }
-
-
+    }  
+        
 
     class Nodo {
 

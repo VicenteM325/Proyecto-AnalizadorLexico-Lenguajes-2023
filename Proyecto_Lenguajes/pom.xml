@@ -26,4 +26,12 @@
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-shared-utils</artifactId>
+            <version>0.1</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>

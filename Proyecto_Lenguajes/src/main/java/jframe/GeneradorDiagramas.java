@@ -15,6 +15,8 @@ public class GeneradorDiagramas {
 
     private List<Nodo> nodos;
     private List<Transicion> transiciones;
+    long timestamp = System.currentTimeMillis();
+     public String imageFileName = "imagen_" + timestamp + ".png";
     
     public GeneradorDiagramas() {
         nodos = new ArrayList<>();
@@ -72,10 +74,12 @@ public class GeneradorDiagramas {
         
        String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
        File classDirectory = new File(classPath).getParentFile();
+       
+
 
         // Construye la ruta completa al archivo DOT
         String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "imagen.png").getAbsolutePath();
+        String imagePath = new File(classDirectory, imageFileName).getAbsolutePath();
         GraphvizUtils.generarImagenDeDot(rutaArchivoDOT, imagePath);
         
          ImageIcon imageIcon = new ImageIcon(imagePath);
@@ -111,7 +115,7 @@ public class GeneradorDiagramas {
 
         // Construye la ruta completa al archivo DOT
         String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "imagen.png").getAbsolutePath();
+        String imagePath = new File(classDirectory , " ").getAbsolutePath();
         eliminarImagenGenerada(imagePath, rutaArchivoDOT);
     }  
         

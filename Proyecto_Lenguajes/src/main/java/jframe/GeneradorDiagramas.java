@@ -2,9 +2,9 @@ package jframe;
 
 import java.awt.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -15,6 +15,9 @@ public class GeneradorDiagramas {
 
     private List<Nodo> nodos;
     private List<Transicion> transiciones;
+    long timestamp = System.currentTimeMillis();
+     public String imageFileName = "imagen_" + timestamp + ".png";
+     ArrayList<String> imagenes = new ArrayList<>();
     
     public GeneradorDiagramas() {
         nodos = new ArrayList<>();
@@ -29,7 +32,8 @@ public class GeneradorDiagramas {
         transiciones.add(new Transicion(estadoOrigen, estadoDestino, simbolo));
     }
 
-    public void generarDotFile(String filePath) {
+    public void generarDotFile(String dotFilePath) {
+
         // Generar el contenido del archivo DOT basado en los nodos y transiciones
         StringBuilder dotContent = new StringBuilder();
         dotContent.append("digraph G {\n");
@@ -48,12 +52,19 @@ public class GeneradorDiagramas {
         }
 
         dotContent.append("}");
-
-        try (PrintWriter writer = new PrintWriter(filePath)) {
-            writer.write(dotContent.toString());
-            System.out.println("Archivo DOT generado exitosamente: " + filePath);
-        } catch (FileNotFoundException e) {
-            System.err.println("Error al generar el archivo DOT: " + e.getMessage());
+        
+        String dotContenido = dotContent.toString();
+ 
+        try {
+            // Crear una carpeta temporal para los archivos
+        File dotFile = new File(dotFilePath);
+        try (PrintWriter writer = new PrintWriter(dotFile, StandardCharsets.UTF_8)) {
+            writer.write(dotContenido);
+            System.out.println("Archivo Dot generado Exitosamente: " + dotFilePath);
+        }
+            // Llamar a la función de visualización pasando la ruta de imagen
+        } catch (IOException e) {
+            System.err.println("Error al generar y guardar el archivo DOT o la imagen: " + e.getMessage());
         }
 
         // Guardar el contenido en un archivo DOT
@@ -61,17 +72,19 @@ public class GeneradorDiagramas {
     }
 
     public void visualizarArchivoDOT() {
-        String rutaCarpetaImagenes = getClass().getClassLoader().getResource("Imagenes/").getPath();
-        // Ruta del archivo DOT que generaste previamente
-        String rutaArchivoDOT = rutaCarpetaImagenes + "archivo.dot";
-        // Ruta donde se guardará las imagenes generada por Graphviz
-        String rutaImagen = rutaCarpetaImagenes + "imagen.png";
+        
+       String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+       File classDirectory = new File(classPath).getParentFile();
+       
 
-        // Llamar a Graphviz para generar la imagen
-        GraphvizUtils.generarImagenDeDot(rutaArchivoDOT, rutaImagen);
 
-        // Cargar la imagen en un JLabel u otro componente gráfico
-        ImageIcon imageIcon = new ImageIcon(rutaImagen);
+        // Construye la ruta completa al archivo DOT
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory, imageFileName).getAbsolutePath();
+        imagenes.add(imagePath);
+        GraphvizUtils.generarImagenDeDot(rutaArchivoDOT, imagePath);
+        
+         ImageIcon imageIcon = new ImageIcon(imagePath);
         int anchoImagen = 800;
         int altoImagen = 600;
         Image image = imageIcon.getImage().getScaledInstance(anchoImagen, altoImagen, Image.SCALE_DEFAULT);
@@ -81,25 +94,14 @@ public class GeneradorDiagramas {
         JFrame frame = new JFrame("Diagrama de Estados");
         frame.getContentPane().add(label);
         frame.pack();
-        frame.getContentPane().revalidate();
-        frame.getContentPane().repaint();
-        
-
-        // Ajustar el tamaño del JFrame para que coincida con el tamaño de la imagen
-        frame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
-
-        // Centrar la ventana en la pantalla
-        frame.setLocationRelativeTo(null);
-
-        // Establecer el cierre al hacer clic en la "X"
+        frame.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         frame.setVisible(true);
     }
     public void eliminarImagenGenerada(String rutaImagen, String rutaArchivoDOT) {
     File dot = new File(rutaArchivoDOT);
     File imagen = new File(rutaImagen);
-    if (imagen.exists() && dot.exists() ) {
+    if (imagen.exists() || dot.exists() ) {
         imagen.delete();
         dot.delete();
         System.out.println("Imagen eliminada: " + rutaImagen);
@@ -110,15 +112,15 @@ public class GeneradorDiagramas {
     }
     }
         public void limpiar() {
-        String rutaCarpetaImagenes = getClass().getClassLoader().getResource("Imagenes/").getPath();
-        // Ruta del archivo DOT que generaste previamente
-        String rutaArchivoDOT = rutaCarpetaImagenes + "archivo.dot";
-        // Ruta donde se guardará las imagenes generada por Graphviz
-        String rutaImagen = rutaCarpetaImagenes + "imagen.png";
-        eliminarImagenGenerada(rutaImagen, rutaArchivoDOT);
-    }
+        String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        File classDirectory = new File(classPath).getParentFile();
 
-
+        // Construye la ruta completa al archivo DOT
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory , imageFileName).getAbsolutePath();
+        eliminarImagenGenerada(imagePath, rutaArchivoDOT);
+    }  
+        
 
     class Nodo {
 

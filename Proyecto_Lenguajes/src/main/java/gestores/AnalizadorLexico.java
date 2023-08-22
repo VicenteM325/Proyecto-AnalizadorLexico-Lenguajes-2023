@@ -1,7 +1,7 @@
 package gestores;
 
-import static gestores.PalabrasReservadas.palabraReservada;
 import java.awt.Color;
+import java.io.File;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -48,11 +48,12 @@ public class AnalizadorLexico {
         
         this.palabra = palabra;
         
-        String rutaCarpetaImagenes = getClass().getClassLoader().getResource("Imagenes/").getPath();
-        // Ruta del archivo DOT que generaste previamente
-        String rutaArchivoDOT = rutaCarpetaImagenes + "archivo.dot";
-        // Ruta donde se guardará las imagenes generada por Graphviz
-        String rutaImagen = rutaCarpetaImagenes + "imagen.png";
+        String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        File classDirectory = new File(classPath).getParentFile();
+
+        // Construye la ruta completa al archivo DOT
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+    
         while (posicion < palabra.length()) {
             getToken();
 
@@ -147,6 +148,6 @@ private void agregarTokenATabla(Token token) {
         jTable1.setDefaultRenderer(Object.class, new ColorCellRenderer(patron1));
         
         }
-    }
+    } 
 }
 

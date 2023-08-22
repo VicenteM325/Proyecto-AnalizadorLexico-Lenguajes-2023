@@ -70,12 +70,12 @@ public class GeneradorDiagramas {
 
     public void visualizarArchivoDOT() {
         
-        String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        File classDirectory = new File(classPath).getParentFile();
+       String classPath = GeneradorDiagramas.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+       File classDirectory = new File(classPath).getParentFile();
 
         // Construye la ruta completa al archivo DOT
-        String rutaArchivoDOT = new File(classDirectory, "Imagenes/archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "Imagenes/imagen.png").getAbsolutePath();
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory, "imagen.png").getAbsolutePath();
         GraphvizUtils.generarImagenDeDot(rutaArchivoDOT, imagePath);
         
          ImageIcon imageIcon = new ImageIcon(imagePath);
@@ -110,12 +110,11 @@ public class GeneradorDiagramas {
         File classDirectory = new File(classPath).getParentFile();
 
         // Construye la ruta completa al archivo DOT
-        String rutaArchivoDOT = new File(classDirectory, "Imagenes/archivo.dot").getAbsolutePath();
-        String imagePath = new File(classDirectory, "Imagenes/imagen.png").getAbsolutePath();
+        String rutaArchivoDOT = new File(classDirectory, "archivo.dot").getAbsolutePath();
+        String imagePath = new File(classDirectory, "imagen.png").getAbsolutePath();
         eliminarImagenGenerada(imagePath, rutaArchivoDOT);
-    }
-
-
+    }  
+        
 
     class Nodo {
 

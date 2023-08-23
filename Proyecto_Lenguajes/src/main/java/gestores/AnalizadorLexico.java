@@ -19,10 +19,10 @@ public class AnalizadorLexico {
     private GeneradorAFD afd;
     private PalabrasReservadas palabrasReservadas;
     private GeneradorDiagramas generadorDiagramas;
+    private int contErrores;
     public Token nuevoToken;
     String palabra;
     int posicion = 0;
-    private int contErrores;
     int filaActual = 1;
     int columnaActual = 0; 
     static int estadoActual = 0;

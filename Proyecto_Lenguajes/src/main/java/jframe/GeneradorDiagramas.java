@@ -40,7 +40,7 @@ public class GeneradorDiagramas {
         dotContent.append("   rankdir=LR;\n");
 
         for (Nodo nodo : nodos) {
-            if (nodo.getEstado() == 1 | nodo.getEstado() == 3 | nodo.getEstado() == 4 | nodo.getEstado() == 5 | nodo.getEstado() == 6 | nodo.getEstado() == 7 | nodo.getEstado() == 8 | nodo.getEstado() == 9 | nodo.getEstado() == 10 | nodo.getEstado() == 11 | nodo.getEstado() == 12 | nodo.getEstado() == 13 | nodo.getEstado() == 14) {
+            if (nodo.getEstado() == 1 | nodo.getEstado() == 3 | nodo.getEstado() == 4 | nodo.getEstado() == 5 | nodo.getEstado() == 6 | nodo.getEstado() == 7 | nodo.getEstado() == 8 | nodo.getEstado() == 9 | nodo.getEstado() == 10 | nodo.getEstado() == 11 | nodo.getEstado() == 12 | nodo.getEstado() == 13 | nodo.getEstado() == 14 | nodo.getEstado() == 15) {
                 dotContent.append(String.format("  %d [label=\"%s\", shape=doublecircle];\n", nodo.getEstado(), nodo.getDescripcion()));
             } else {
                 dotContent.append(String.format("  %d [label=\"%s\"];\n", nodo.getEstado(), nodo.getDescripcion()));

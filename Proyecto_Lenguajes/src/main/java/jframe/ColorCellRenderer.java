@@ -8,7 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ColorCellRenderer extends DefaultTableCellRenderer {
-    private Patron patrones; // Supongo que tienes una clase Patrones
+    private Patron patrones; 
 
     public ColorCellRenderer(Patron patrones) {
         this.patrones = patrones;

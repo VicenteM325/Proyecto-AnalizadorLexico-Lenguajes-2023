@@ -67,8 +67,6 @@ public class GeneradorDiagramas {
             System.err.println("Error al generar y guardar el archivo DOT o la imagen: " + e.getMessage());
         }
 
-        // Guardar el contenido en un archivo DOT
-        // Aquí tendrías el código para escribir el contenido en un archivo en el filePath especificado.
     }
 
     public void visualizarArchivoDOT() {

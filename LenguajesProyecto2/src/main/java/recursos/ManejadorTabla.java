@@ -40,7 +40,6 @@ public class ManejadorTabla {
 
         for (int i = 0; i < list.size(); i++) {
             Token token = list.get(i);
-
             lexemas.append(token.getLexema()).append(" ");
 
             if (i == list.size() - 1 || token.getLinea() != list.get(i + 1).getLinea()) {
@@ -48,14 +47,15 @@ public class ManejadorTabla {
                 lexemas.setLength(0);
             }
         }
+
     }
-    
-    public void ReporteErroresSintacticos(ArrayList<String> lista, JTable tabla){
-         DefaultTableModel modelo = new DefaultTableModel();
-          tabla.setModel(modelo);
-          modelo.addColumn("Error");
-          for(int i=0; i<lista.size();i++){
-              modelo.addRow(new Object[]{lista.get(i)});
-          }
+
+    public void ReporteErroresSintacticos(ArrayList<String> lista, JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        tabla.setModel(modelo);
+        modelo.addColumn("Error");
+        for (int i = 0; i < lista.size(); i++) {
+            modelo.addRow(new Object[]{lista.get(i)});
+        }
     }
 }

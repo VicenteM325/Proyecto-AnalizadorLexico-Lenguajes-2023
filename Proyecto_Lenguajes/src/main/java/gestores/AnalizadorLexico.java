@@ -73,13 +73,6 @@ public class AnalizadorLexico {
         tmp = palabra.charAt(posicion);
         // Manejo de posicion de fila y columna
         
-        if (tmp == '\n') {
-            filaActual++;
-            columnaActual = 1;
-        } if (tmp != ' ' && tmp != '\r' && tmp != '\t' && tmp != '\b' && tmp != '\f') {
-            columnaActual++;
-        }
-        // Manejo de lectura de tokens
         if (tmp == ' ' || tmp == '\n' || tmp == '\r' || tmp == '\t' || tmp == '\b' || tmp == '\f') {
              generadorDiagramas.agregarNodo(estadoActual, "Estado " + estadoActual);
              if(tmp == ' ' && estadoActual == 13){

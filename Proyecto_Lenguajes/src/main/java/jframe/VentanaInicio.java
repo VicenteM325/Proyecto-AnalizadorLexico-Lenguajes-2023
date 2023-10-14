@@ -32,7 +32,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     /**
      * Creates new form VentanaInicio
      */
-     private CargaArchivo cargarArchivo;
+    private CargaArchivo cargarArchivo;
     public VentanaInicio() {
          
         initComponents();
@@ -165,6 +165,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         jTextPane1.setBackground(new java.awt.Color(254, 254, 254));
         jTextPane1.setFont(new java.awt.Font("Ubuntu", 0, 17)); // NOI18N
+        jTextPane1.setForeground(new java.awt.Color(1, 1, 1));
         jScrollPane3.setViewportView(jTextPane1);
 
         jTableError.setBackground(new java.awt.Color(254, 254, 254));
@@ -220,9 +221,9 @@ public class VentanaInicio extends javax.swing.JFrame {
                                         .addGap(178, 178, 178)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(1, 1, 1)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()

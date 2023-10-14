@@ -71,19 +71,24 @@ public class Patron {
             return java.awt.Color.BLACK;
         }
         if(token.equals("Aritmetico")){
-            return java.awt.Color.blue;       
+            Color celeste = new Color(0,191,255);
+            return celeste;        
         }
         if(token.equals("Comparacion")){
-            return java.awt.Color.blue;
+            Color celeste = new Color(0,191,255);
+            return celeste; 
         }
         if(token.equals("Logicos")){
-            return java.awt.Color.blue;
+            Color celeste = new Color(0,191,255);
+            return celeste; 
         }
         if(token.equals("Asignacion")){
-            return java.awt.Color.blue;       
+            Color celeste = new Color(0,191,255);
+            return celeste;       
         }
         if(token.equals("Palabras Reservadas")){
-            return java.awt.Color.MAGENTA;
+           Color morado = new Color(128, 0, 128);
+            return morado;
         }
         if(token.equals("Cadena")){
             return java.awt.Color.RED;

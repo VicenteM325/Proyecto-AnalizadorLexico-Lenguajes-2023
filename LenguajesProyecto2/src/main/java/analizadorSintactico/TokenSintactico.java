@@ -18,12 +18,10 @@ public class TokenSintactico {
      private int columna;
 
 
-    public TokenSintactico(TipoToken tipo, String lexema, int linea, int columna) {
-        this.tipo = tipo;
-        this.lexema = lexema;
-        this.linea = linea;
-        this.columna = columna;
+    public TokenSintactico() {
+
     }
+
 
     public TipoToken getTipo() {
         return tipo;

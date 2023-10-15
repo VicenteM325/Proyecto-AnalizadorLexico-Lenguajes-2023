@@ -32,7 +32,7 @@ as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|
 None|nonlocal|pass|raise|return|try|with|yield|
 while { 
     // Calcula la posición de columna actual
-    int tokenColumna = columnaActual;
+    int tokenColumna = columnaActual;                                
 
     // Incrementa la columna por la longitud del lexema
     columnaActual += yytext().length();

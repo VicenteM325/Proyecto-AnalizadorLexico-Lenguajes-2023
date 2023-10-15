@@ -22,7 +22,7 @@ public class AnalizadorSintactico {
     Principal principal = new Principal();
     ArrayList<Token> listaToken = principal.getTokens();
 
-    int estado = 1;
+    int estado = 0;
     int indice;
 
     public void analizar(ArrayList<Token> listaToken) throws IOException {
@@ -34,11 +34,16 @@ public class AnalizadorSintactico {
                     if (listaToken.get(i).getTipo() == tipoToken.IDENTIFICADOR) {
                         System.out.println("Entre identificador ahora voy a estado 2");
                         estado = 1;
-                    } else {
+                    }
+                    else if (listaToken.get(i).getTipo() == tipoToken.RESERVADA &&listaToken.get(i).getLexema().equals("if")){
+                        System.out.println("por lo menos aqui si");
+                        estado = 8;
+                    }
+                    else {
                         System.out.println("Inicie con IDENTIFICADOR | CONDICIONAL | OPERADOR TERNARIO | CICLOS en la fila "
                                 + listaToken.get(i).getLinea()
                                 + " y columna " + listaToken.get(i).getColumna());
-                        estado = 0;
+
                     }
                     break;
 
@@ -52,6 +57,8 @@ public class AnalizadorSintactico {
                     if (listaToken.get(i).getTipo() == tipoToken.ENTERO || listaToken.get(i).getTipo() == tipoToken.CADENA || listaToken.get(i).getTipo() == tipoToken.DECIMAL || listaToken.get(i).getTipo() == tipoToken.BOOLEANO) {
                         listaToken.get(i).setTipo(tipoToken.DECLARACION_ASIGNACION_VARIABLES);
                         estado = 3;
+                    } else if(listaToken.get(i).getLexema().equals("not")){
+                        estado = 4;
                     } else if(listaToken.get(i).getTipo() == tipoToken.COMENTARIO){
                         listaToken.get(i).setLinea(i);
                         estado = 0;
@@ -67,12 +74,15 @@ public class AnalizadorSintactico {
                     break;
 
                 case 3:
-                    if (listaToken.get(i).getTipo() == tipoToken.ARITMETICO && listaToken.get(i-1).getTipo() == tipoToken.DECLARACION_ASIGNACION_VARIABLES || listaToken.get(i).getTipo() == tipoToken.LOGICO && listaToken.get(i-1).getTipo() == tipoToken.DECLARACION_ASIGNACION_VARIABLES) {
+                    if (listaToken.get(i).getTipo() == tipoToken.ARITMETICO && listaToken.get(i-1).getTipo() == tipoToken.DECLARACION_ASIGNACION_VARIABLES) {
                         estado = 4;
                     } else if(listaToken.get(i).getTipo() == tipoToken.COMPARACION && listaToken.get(i-1).getTipo() == tipoToken.DECLARACION_ASIGNACION_VARIABLES){
                         estado = 4;
-                    } 
-                    
+                        System.out.println("declaracion a estado 4");
+                    } else if(listaToken.get(i).getLexema().equals("is")){
+                        estado = 7;
+                        
+                    }            
                     else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
                         listaToken.get(i).setLinea(i);
                         estado = 0;
@@ -86,10 +96,35 @@ public class AnalizadorSintactico {
                     }
                     
                     break;
-                    
+                    //Valida la secuencia de ID ASIGNACION ENTERO (COMPARACION  | ARITMETICO) ENTERO
                 case 4:
-                    if (listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getTipo() == tipoToken.ARITMETICO || listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getTipo() == tipoToken.COMPARACION) {
+                    if (listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getTipo() == tipoToken.ARITMETICO 
+                            || listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getTipo() == tipoToken.COMPARACION && !listaToken.get(i-1).getLexema().equals("==")){
                         listaToken.get(i).setTipo(tipoToken.DECLARACION_ASIGNACION_VARIABLES);
+                    } else if(listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getTipo() == tipoToken.COMPARACION && listaToken.get(i-1).getLexema().equals("==")){
+                        estado = 5;
+                    } else if(listaToken.get(i).getTipo() == tipoToken.ENTERO && listaToken.get(i-1).getLexema().equals("not")){
+                        estado = 5;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0; 
+                    } else {
+                        System.out.println("se espera una CADENA | , | ENTERO | DECIMAL en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera una CADENA | , | ENTERO | DECIMAL en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
+                case 5:
+                    if(listaToken.get(i).getLexema().equals("and") || listaToken.get(i).getLexema().equals("or")){
+                        estado = 6;
+                        System.out.println("fue asignado");
+                    } else if(listaToken.get(i).getLexema().equals("==")){
+                        estado = 7;
                     } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
                         listaToken.get(i).setLinea(i);
                         estado = 0;
@@ -103,7 +138,194 @@ public class AnalizadorSintactico {
                     }
 
                     break;
+                   
+                 case 6:
+                    if(listaToken.get(i).getTipo() == tipoToken.ENTERO){
+                        listaToken.get(i).setTipo(tipoToken.DECLARACION_ASIGNACION_VARIABLES);
+                        estado = 3;
+                        System.out.println("fue asignado");
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
 
+                    break;
+
+                case 7:
+                    if (listaToken.get(i).getTipo() == tipoToken.ENTERO) {
+                        listaToken.get(i).setTipo(tipoToken.DECLARACION_ASIGNACION_VARIABLES);
+                        System.out.println("fue asignado");
+                    } else if(listaToken.get(i).getLexema().equals("not")){
+                        estado = 7 ;
+                    }else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
+                case 8:
+                    if (listaToken.get(i).getTipo() == tipoToken.ENTERO) {
+                        estado = 9;
+                        System.out.println("enterooooo");
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
+
+                case 9:
+                    if (listaToken.get(i).getLexema().equals("==")) {
+                        estado = 10;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;    
+ 
+                case 10:
+                    if (listaToken.get(i).getTipo() == tipoToken.ENTERO) {
+                        estado = 11;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
+                case 11:
+                    if (listaToken.get(i).getLexema().equals(":")) {
+                        estado = 12;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 12;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                
+                case 12:
+                    
+                    if (listaToken.get(i).getLexema().equals("print")) {
+                        estado = 13;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 13;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+
+                case 13:
+                    if (listaToken.get(i).getLexema().equals("(")) {
+                        estado = 14;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        listaToken.get(i).setTipo(listaToken.get(i-1).getTipo());
+                        listaToken.get(i).setLexema(listaToken.get(i-1).getLexema());
+                        listaToken.get(i).setLinea(listaToken.get(i-1).getLinea());
+                        listaToken.get(i).setColumna(listaToken.get(i-1).getColumna());
+                        estado = 14;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+
+                case 14:
+                    if (listaToken.get(i).getTipo() == tipoToken.CADENA) {
+                        estado = 15;
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 15;
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
+                case 15:
+                    if (listaToken.get(i).getLexema().equals(")")) {
+                        System.out.println("llegue aqui");
+                        listaToken.get(i).setTipo(tipoToken.CONDICIONALES);
+                    } else if (listaToken.get(i).getTipo() == tipoToken.COMENTARIO) {
+                        listaToken.get(i).setLinea(i);
+                        estado = 0;
+                        listaToken.get(i).setTipo(listaToken.get(i-1).getTipo());
+                        listaToken.get(i).setLexema(listaToken.get(i-1).getLexema());
+                        listaToken.get(i).setLinea(listaToken.get(i-1).getLinea());
+                        listaToken.get(i).setColumna(listaToken.get(i-1).getColumna());
+                    } else {
+                        System.out.println("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaErrores.add("se espera un ENTERO en la fila " + listaToken.get(i).getLinea() + " y columna "
+                                + listaToken.get(i).getColumna() + " despues de " + listaToken.get(i - 1).getLexema());
+                        listaToken.get(i).setTipo(tipoToken.ERROR_SINTACTICO);
+                        estado = 0;
+                    }
+
+                    break;
+                    
             }
         }
     }
